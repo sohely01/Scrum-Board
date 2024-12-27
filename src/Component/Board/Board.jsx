@@ -1,20 +1,9 @@
 import React, { useState } from 'react';
 import './Board.css';
-import { MoreHorizontal } from 'react-feather';
+import { MoreHorizontal, X } from 'react-feather';
 
-const Board = () => {
-  const [taskInput, setTaskInput] = useState('');
-  const [tasks, setTasks] = useState([]);
-
-  const handleAddTask = (status) => {
-    if (taskInput.trim()) {
-      setTasks((prevTasks) => [
-        ...prevTasks,
-        { id: Date.now(), title: taskInput, status },
-      ]);
-      setTaskInput('');
-    }
-  };
+const Board = ({ tasks, onUpdateTask }) => {
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const columns = [
     { key: 'backlog', title: 'Backlog' },
@@ -23,51 +12,84 @@ const Board = () => {
     { key: 'done', title: 'Done' },
   ];
 
+  const openTaskDetails = (task) => {
+    setSelectedTask(task);
+  };
+
+  const closeTaskDetails = () => {
+    setSelectedTask(null);
+  };
+
+  const handleStatusChange = (e) => {
+    const newStatus = e.target.value;
+    onUpdateTask(selectedTask.id, newStatus);
+    setSelectedTask((prev) => ({ ...prev, status: newStatus }));
+  };
+
   return (
     <div className="board">
       {columns.map(({ key, title }) => (
         <div key={key} className="board_column">
-          {/* Column Header */}
           <div className="board_top">
             <p className="board_top_title">
               {title}
               <span>
-                {
-                  tasks.filter((task) => task.status === key).length
-                }
+                {tasks.filter((task) => task.status === key).length}
               </span>
             </p>
             <MoreHorizontal />
           </div>
 
-          {/* Add Task Input */}
-          {/* <div className="board_add_task">
-            <input
-              type="text"
-              value={taskInput}
-              onChange={(e) => setTaskInput(e.target.value)}
-              placeholder={`Add task to ${title}`}
-              className="task_input"
-            />
-            <button
-              onClick={() => handleAddTask(key)}
-              className="add_task_button"
-            >
-              Add Task
-            </button>
-          </div> */}
-
-          {/* <ul className="task_list">
+          <ul className="task_list">
             {tasks
               .filter((task) => task.status === key)
               .map((task) => (
-                <li key={task.id} className="task_item">
-                  {task.title}
+                <li
+                  key={task.id}
+                  className="task_item"
+                  onClick={() => openTaskDetails(task)}
+                >
+                  <p className="task_title">{task.title}</p>
                 </li>
               ))}
-          </ul> */}
+          </ul>
         </div>
       ))}
+
+      {selectedTask && (
+        <div className="modal_overlay" onClick={closeTaskDetails}>
+          <div
+            className="modal_content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal_header">
+              <h3>Task Details</h3>
+              <X onClick={closeTaskDetails} className="close_icon" />
+            </div>
+            <div className="modal_body">
+              <p><strong>Title:</strong> {selectedTask.title}</p>
+              <p><strong>Description:</strong> {selectedTask.description || 'No description provided'}</p>
+              <p><strong>Status:</strong></p>
+              <select
+                value={selectedTask.status}
+                onChange={handleStatusChange}
+                className="status_dropdown"
+              >
+                {columns.map(({ key, title }) => (
+                  <option key={key} value={key}>
+                    {title}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="modal_footer">
+              <button onClick={closeTaskDetails} className="modal_close_btn">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

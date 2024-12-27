@@ -49,10 +49,10 @@
   }
   
   .add_task_button {
-    background: #3b82f6;
+    background: green;
     color: white;
     padding: 8px 12px;
-    border-radius: 4px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
     font-size: 0.9rem;
