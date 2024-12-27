@@ -1,0 +1,91 @@
+/* General Board Layout */
+.board {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: #f8fafc;
+    overflow-x: auto;
+  }
+  
+  .board_column {
+    flex: 1;
+    min-width: 250px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Column Header */
+  .board_top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f1f5f9;
+  }
+  
+  .board_top_title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .board_top_title span {
+    background: #3b82f6;
+    color: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+  }
+  
+  /* Add Task Section */
+  .board_add_task {
+    padding: 12px;
+    display: flex;
+    gap: 8px;
+  }
+  
+  .task_input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+  }
+  
+  .add_task_button {
+    background: #3b82f6;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .add_task_button:hover {
+    background: #2563eb;
+  }
+  
+  /* Task List */
+  .task_list {
+    flex: 1;
+    list-style: none;
+    margin: 0;
+    padding: 12px;
+    overflow-y: auto;
+  }
+  
+  .task_item {
+    background: #e0f2fe;
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
